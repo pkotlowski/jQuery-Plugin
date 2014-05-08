@@ -108,7 +108,7 @@
         var settings = $.extend({
             softPasswordRegularExpression: "[0-9]*",
             mediumPasswordRegularExpression: "[0-9a-zA-Z]*",
-            hardPasswordRegularExpression: "[0-9a-zA-Z]*",
+            hardPasswordRegularExpression: "[0-9a-zA-Z\.[{(*+?^$|*]",
         }, options);
 //        if () {
 //            var cityName = getCityFromPostalCode(this.val());

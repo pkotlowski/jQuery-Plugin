@@ -29,9 +29,7 @@ $(function() {
         if (a.valid && a.cityName !== 'undefined') {
             $("#postalCodeTextBox").parent().removeClass("has-error");
             $("#sbmBtn").removeAttr("disabled");
-            console.log(a.cityName)
             $("#cityTextBox").val(a.cityName);
-
         }
         else {
             $("#postalCodeTextBox").parent().addClass("has-error");
