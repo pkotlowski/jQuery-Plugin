@@ -56,21 +56,21 @@
             type: "GET",
             url: "/jQuery/Public/kody.csv",
             dataType: "text",
-            async:false,
+            async: false,
             success: function(data) {
                 var dataa = $.csv.toObjects(data, {separator: ';'});
                 for (var i = 0; i < dataa.length; i++) {
-                    
-                    if(dataa[i].KOD_POCZTOWY===code){
+
+                    if (dataa[i].KOD_POCZTOWY === code) {
                         //console.log(dataa[i].MIEJSCOWOŚĆ)
-                        city=dataa[i].MIEJSCOWOŚĆ;
+                        city = dataa[i].MIEJSCOWOŚĆ;
                         //callback();
-                        
+
                         //break;
                     }
                 }
-            }          
-        
+            }
+
         });
         return city;
     };
@@ -89,36 +89,53 @@
         }, options);
         if (validatePostalCode(this.val(), settings.regularExpression)) {
             var cityName = getCityFromPostalCode(this.val());
-                return ({valid:true, cityName:cityName});
-                            
-            
+            return ({valid: true, cityName: cityName});
+
+
         }
         else {
-            return ({valid:false, cityName:cityName});
+            return ({valid: false, cityName: cityName});
         }
     };
-    
-    var validatePasswordStrength=function(password, softPassword, mediumPassword, hardPassword){
+
+    var validatePasswordStrength = function(password, softPassword, mediumPassword, hardPassword) {
         var soft = new RegExp(softPassword);
         var medium = new RegExp(mediumPassword);
         var hard = new RegExp(hardPassword);
+console.log("hard "+hard.test(password));
+        if (hard.test(password)) {
+            return({strenght: "hard"});
+            console.log("hard");
+        }
+        else {
+            console.log("med "+medium.test(password));
+            if (medium.test(password)) {
+                return({strenght: "medium"});
+                console.log("medium");
+            }
+            else
+                console.log("soft "+soft.test(password));
+            if (soft.test(password)) {
+                return({strenght: "soft"});
+                console.log("soft");
+            }
+            else {
+                return({strenght: "error"});
+                console.log("err");
+            }
+        }
     };
-    
+
     $.fn.validatePassword = function(options) {
         var settings = $.extend({
-            softPasswordRegularExpression: "[0-9]*",
-            mediumPasswordRegularExpression: "[0-9a-zA-Z]*",
-            hardPasswordRegularExpression: "[0-9a-zA-Z\.[{(*+?^$|*]",
+            softPasswordRegularExpression: "[A-Za-z]",
+            mediumPasswordRegularExpression: "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]",
+            hardPasswordRegularExpression: "((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@]))"
+            //"((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%,.\[\]\^!]).{6,20})"
         }, options);
-//        if () {
-//            var cityName = getCityFromPostalCode(this.val());
-//                return ({valid:true, cityName:cityName});
-//                            
-//            
-//        }
-//        else {
-//            return ({valid:false, cityName:cityName});
-//        }
+//        
+        var strenght = validatePasswordStrength(this.val(), settings.softPasswordRegularExpression, settings.mediumPasswordRegularExpression, settings.hardPasswordRegularExpression);
+        return strenght;
     };
 
 })(jQuery);

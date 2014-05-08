@@ -36,5 +36,28 @@ $(function() {
             $("#sbmBtn").attr("disabled", "disabled");
         }
     });
+    $("#passwordTextBox").keyup(function() {
+        var a = $(this).validatePassword({});
+        console.log(a);
+        if (a.strenght === "hard") {
+            $(".progress-bar").removeClass("progress-bar-warning");
+            $(".progress-bar").removeClass("progress-bar-info");
+            $('.progress-bar').css({width: "100%"});
+            $(".progress-bar").addClass("progress-bar-danger");
+
+        }
+        if (a.strenght === "medium") {
+            $(".progress-bar").removeClass("progress-bar-danger");
+            $(".progress-bar").removeClass("progress-bar-info");
+            $('.progress-bar').css({width: "70%"});
+            $(".progress-bar").addClass("progress-bar-warning");
+        }
+        if (a.strenght === "soft") {
+            $(".progress-bar").removeClass("progress-bar-warning");
+            $(".progress-bar").removeClass("progress-bar-danger");
+            $('.progress-bar').css({width: "30%"});
+            $(".progress-bar").addClass("progress-bar-info");
+        }
+    });
 
 });
