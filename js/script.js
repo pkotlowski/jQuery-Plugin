@@ -24,12 +24,14 @@ $(function() {
     });
 
     $("#postalCodeTextBox").keyup(function() {
+        $("#loading_icon").removeAttr("hidden");
         var a = $(this).validatePostalCode({});
         //console.log(a)
         if (a.valid && a.cityName !== 'undefined') {
             $("#postalCodeTextBox").parent().removeClass("has-error");
             $("#sbmBtn").removeAttr("disabled");
             $("#cityTextBox").val(a.cityName);
+            $("#loading_icon").attr("hidden", "hidden");
         }
         else {
             $("#postalCodeTextBox").parent().addClass("has-error");

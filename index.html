@@ -18,29 +18,35 @@ and open the template in the editor.
         <link href="Public/kody.csv" rel="appendix" >
     </head>
     <body>
-        <div class="col-md-4">
+        <div class="col-md-10">
+        
             <div class="input-group">
-                <span class="input-group-addon">Imie</span>
+                <span class="input-group-addon" style="width:40%">Imie</span>
                 <input type="text" class="form-control" id="nameTextBox">
             </div>
             <div class="input-group">
-                <span class="input-group-addon">E-mail</span>
+                <span class="input-group-addon" style="width:40%">E-mail</span>
                 <input type="text" class="form-control" id="emailTextBox">
             </div>
+            
             <div class="input-group">
-                <span class="input-group-addon">Kod Pocztowy</span>
+                <span class="input-group-addon" style="width:40%">Kod Pocztowy</span>
                 <input type="text" class="form-control" id="postalCodeTextBox">
+               
             </div>
+             <img id="loading_icon" alt="loading" src="img/ajax-loader.gif" hidden="hidden">
             <div class="input-group">
-                <span class="input-group-addon">Miasto</span>
+                <span class="input-group-addon" style="width:40%">Miasto</span>
                 <input type="text" class="form-control" id="cityTextBox">
             </div>
+            
             <div class="input-group">
-                <span class="input-group-addon">Hasło</span>
+                <span class="input-group-addon" style="width:40%">Hasło</span>
                 <input type="text" class="form-control" id="passwordTextBox">
+                
             </div>
 
-            <div class="progress">
+            <div class="progress" style="width:25%">
                 <div class="progress">
                 <div class="progress-bar" role="progressbar"  style="width: 0%;"></div>
                 </div>
@@ -48,6 +54,7 @@ and open the template in the editor.
             <div class="col-md-2">
                 <button class="btn-group" id="sbmBtn">Dodaj</button>
             </div>
+        
         </div>
     </body>
 </html>

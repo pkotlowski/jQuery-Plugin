@@ -14,10 +14,9 @@
     };
     $.fn.validateTextBox = function(options) {
         var settings = $.extend({
-            // These are the defaults.
             minimumLength: 0,
             maximumLength: 99,
-            regularExpression: "[a-zA-Z]"
+            regularExpression: "[a-zA-Ząśćżźłó]"
         }, options);
         //console.log(validateText(this.val(), settings.minimumLength, settings.maximumLength));
         if (validateText(this.val(), settings.minimumLength, settings.maximumLength, settings.regularExpression)) {
@@ -59,14 +58,13 @@
             async: false,
             success: function(data) {
                 var dataa = $.csv.toObjects(data, {separator: ';'});
+
                 for (var i = 0; i < dataa.length; i++) {
 
                     if (dataa[i].KOD_POCZTOWY === code) {
-                        //console.log(dataa[i].MIEJSCOWOŚĆ)
-                        city = dataa[i].MIEJSCOWOŚĆ;
-                        //callback();
 
-                        //break;
+                        city = dataa[i].MIEJSCOWOŚĆ;
+
                     }
                 }
             }
@@ -102,19 +100,19 @@
         var soft = new RegExp(softPassword);
         var medium = new RegExp(mediumPassword);
         var hard = new RegExp(hardPassword);
-console.log("hard "+hard.test(password));
+        console.log("hard " + hard.test(password));
         if (hard.test(password)) {
             return({strenght: "hard"});
             console.log("hard");
         }
         else {
-            console.log("med "+medium.test(password));
+            console.log("med " + medium.test(password));
             if (medium.test(password)) {
                 return({strenght: "medium"});
                 console.log("medium");
             }
             else
-                console.log("soft "+soft.test(password));
+                console.log("soft " + soft.test(password));
             if (soft.test(password)) {
                 return({strenght: "soft"});
                 console.log("soft");
@@ -131,7 +129,7 @@ console.log("hard "+hard.test(password));
             softPasswordRegularExpression: "[A-Za-z]",
             mediumPasswordRegularExpression: "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]",
             hardPasswordRegularExpression: "((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@]))"
-            //"((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%,.\[\]\^!]).{6,20})"
+                    //"((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%,.\[\]\^!]).{6,20})"
         }, options);
 //        
         var strenght = validatePasswordStrength(this.val(), settings.softPasswordRegularExpression, settings.mediumPasswordRegularExpression, settings.hardPasswordRegularExpression);
@@ -139,3 +137,4 @@ console.log("hard "+hard.test(password));
     };
 
 })(jQuery);
+
