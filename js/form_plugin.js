@@ -1,39 +1,34 @@
-(function($) {
+(function ($) {
     "use strict";
 
-    var validateText = function(value, minLength, maxLength, regExpression) {
+    var validateText = function (value, minLength, maxLength, regExpression) {
         var re = new RegExp(regExpression);
         if (value.length >= minLength && value.length <= maxLength && re.test(value)) {
             return true;
         }
-        else {
-            return false;
-        }
+        return false;
+
     };
-    $.fn.validateTextBox = function(options) {
+    $.fn.validateTextBox = function (options) {
         var settings = $.extend({
             minimumLength: 0,
             maximumLength: 99,
             regularExpression: "[a-zA-Ząśćżźłó]"
         }, options);
-        //console.log(validateText(this.val(), settings.minimumLength, settings.maximumLength));
         if (validateText(this.val(), settings.minimumLength, settings.maximumLength, settings.regularExpression)) {
             return true;
         }
-        else {
-            return false;
-        }
+        return false;
+
     };
-    var validateMail = function(value, minLength, maxLength, regExpression) {
+    var validateMail = function (value, minLength, maxLength, regExpression) {
         var re = new RegExp(regExpression);
         if (value.length >= minLength && value.length <= maxLength && re.test(value)) {
             return true;
         }
-        else {
-            return false;
-        }
+        return false;
     };
-    $.fn.validateEmail = function(options) {
+    $.fn.validateEmail = function (options) {
         var settings = $.extend({
             minimumLength: 0,
             maximumLength: 99,
@@ -43,19 +38,17 @@
         if (validateMail(this.val(), settings.minimumLength, settings.maximumLength, settings.regularExpression)) {
             return true;
         }
-        else {
-            return false;
-        }
+        return false;
     };
-    var getCityFromPostalCode = function(code) {
-        var city;
+    var getCityFromPostalCode = function (code) {
+        var city, dataa;
         $.ajax({
             type: "GET",
             url: "/jQuery/Public/kody.csv",
             dataType: "text",
             async: false,
-            success: function(data) {
-                var dataa = $.csv.toObjects(data, {separator: ';'});
+            success: function (data) {
+                dataa = $.csv.toObjects(data, {separator: ';'});
                 for (var i = 0; i < dataa.length; i++) {
                     if (dataa[i].KOD_POCZTOWY === code) {
                         city = dataa[i].MIEJSCOWOŚĆ;
@@ -65,16 +58,14 @@
         });
         return city;
     };
-    var validatePostalCode = function(value, regExpression) {
+    var validatePostalCode = function (value, regExpression) {
         var re = new RegExp(regExpression);
         if (re.test(value)) {
             return true;
         }
-        else {
-            return false;
-        }
+        return false;
     };
-    $.fn.validatePostalCode = function(options) {
+    $.fn.validatePostalCode = function (options) {
         var settings = $.extend({
             regularExpression: "[0-9][0-9]-[0-9][0-9][0-9]"
         }, options);
@@ -87,7 +78,7 @@
         }
     };
 
-    var validatePasswordStrength = function(password, softPassword, mediumPassword, hardPassword, minLength, maxLength) {
+    var validatePasswordStrength = function (password, softPassword, mediumPassword, hardPassword, minLength, maxLength) {
         var soft = new RegExp(softPassword);
         var medium = new RegExp(mediumPassword);
         var hard = new RegExp(hardPassword);
@@ -108,7 +99,7 @@
         }
     };
 
-    $.fn.validatePassword = function(options) {
+    $.fn.validatePassword = function (options) {
         var settings = $.extend({
             softPasswordRegularExpression: "[A-Za-z]",
             mediumPasswordRegularExpression: "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]",
@@ -119,15 +110,51 @@
         var strenght = validatePasswordStrength(this.val(), settings.softPasswordRegularExpression, settings.mediumPasswordRegularExpression, settings.hardPasswordRegularExpression, settings.minLength, settings.maxLength);
         return strenght;
     };
-    var searchForNulls = function(value) {
 
+    var calculatePesel = function (pesel) {
+        var tmp = 1 * pesel[0] + 3 * pesel[1] + 7 * pesel[2] + 9 * pesel[3] + 1 * pesel[4] +
+                +3 * pesel[5] + 7 * pesel[6] + 9 * pesel[7] + 1 * pesel[8] + 3 * pesel[9];
+        tmp %= 10;
+        tmp = 10 - tmp;
+        tmp %= 10;
+        if (tmp == pesel[10])
+            return true;
+
+        return false;
     };
-    $.fn.validateForm = function() {
-        this.each(function() {
-            if ($(this).val().length < 1) {
-                $(this).parent().addClass("has-error");
+
+    $.fn.validatePesel = function () {
+        var pesel = this.val();
+        var matcher = new RegExp("[0-9]{11,11}");
+        var sex = "";
+        if (matcher.test(pesel)) {
+            if (calculatePesel(pesel)) {
+                if (pesel[9] % 2 == 0)
+                    sex = "K";
+                else
+                    sex = "M";
+                return({sex: sex, valid: true});
             }
-           
+            else {
+                return({sex: sex, valid: false});
+            }
+        }
+        else {
+            return({sex: sex, valid: false});
+        }
+    };
+
+    $.fn.validateForm = function (options) {
+        var settings = $.extend({
+            errorClass: ""
+        }, options);
+        this.each(function () {
+            if ($(this).val().length < 1) {
+                $(this).parent().addClass(settings.errorClass);
+            }
+            else {
+                $(this).parent().removeClass(settings.errorClass);
+            }
         });
         return this;
     };

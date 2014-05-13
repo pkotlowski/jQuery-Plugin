@@ -74,9 +74,20 @@ $(function() {
             $("#sbmBtn").attr("disabled", "disabled");
         }
     });
-    $("#sbmBtn").click(function(){
-        var a = $("input").validateForm();
-        console.log(a);
+    $("#peselTextBox").keyup(function() {
+        var a = $(this).validatePesel();
+        if (a.valid) {
+            $("#peselTextBox").parent().removeClass("has-error");
+            $("#sbmBtn").removeAttr("disabled");
+        }
+        else {
+            $("#sbmBtn").attr("disabled", "disabled");
+            $("#peselTextBox").parent().addClass("has-error");
+        }
+    });
+    $("#sbmBtn").click(function() {
+        var a = $("input").validateForm({errorClass: "has-error"});
+
     });
 
 });
