@@ -46,6 +46,8 @@ $(function() {
             $(".progress-bar").removeClass("progress-bar-info");
             $('.progress-bar').css({width: "100%"});
             $(".progress-bar").addClass("progress-bar-danger");
+            $("#sbmBtn").removeAttr("disabled");
+            $("#passwordTextBox").parent().removeClass("has-error");
 
         }
         if (a.strenght === "medium") {
@@ -53,13 +55,28 @@ $(function() {
             $(".progress-bar").removeClass("progress-bar-info");
             $('.progress-bar').css({width: "70%"});
             $(".progress-bar").addClass("progress-bar-warning");
+            $("#sbmBtn").removeAttr("disabled");
+            $("#passwordTextBox").parent().removeClass("has-error");
         }
         if (a.strenght === "soft") {
             $(".progress-bar").removeClass("progress-bar-warning");
             $(".progress-bar").removeClass("progress-bar-danger");
             $('.progress-bar').css({width: "30%"});
             $(".progress-bar").addClass("progress-bar-info");
+            $("#sbmBtn").removeAttr("disabled");
+            $("#passwordTextBox").parent().removeClass("has-error");
         }
+        if (a.strenght === "error") {
+            $(".progress-bar").removeClass("progress-bar-warning");
+            $(".progress-bar").removeClass("progress-bar-danger");
+            $(".progress-bar").removeClass("progress-bar-info");
+            $('.progress-bar').css({width: "0%"});
+            $("#sbmBtn").attr("disabled", "disabled");
+        }
+    });
+    $("#sbmBtn").click(function(){
+        var a = $("input").validateForm();
+        console.log(a);
     });
 
 });

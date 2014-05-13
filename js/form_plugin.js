@@ -3,8 +3,6 @@
 
     var validateText = function(value, minLength, maxLength, regExpression) {
         var re = new RegExp(regExpression);
-
-        console.log(value.length >= minLength && value.length <= maxLength && re.test(value));
         if (value.length >= minLength && value.length <= maxLength && re.test(value)) {
             return true;
         }
@@ -58,17 +56,12 @@
             async: false,
             success: function(data) {
                 var dataa = $.csv.toObjects(data, {separator: ';'});
-
                 for (var i = 0; i < dataa.length; i++) {
-
                     if (dataa[i].KOD_POCZTOWY === code) {
-
                         city = dataa[i].MIEJSCOWOŚĆ;
-
                     }
                 }
             }
-
         });
         return city;
     };
@@ -88,38 +81,29 @@
         if (validatePostalCode(this.val(), settings.regularExpression)) {
             var cityName = getCityFromPostalCode(this.val());
             return ({valid: true, cityName: cityName});
-
-
         }
         else {
             return ({valid: false, cityName: cityName});
         }
     };
 
-    var validatePasswordStrength = function(password, softPassword, mediumPassword, hardPassword) {
+    var validatePasswordStrength = function(password, softPassword, mediumPassword, hardPassword, minLength, maxLength) {
         var soft = new RegExp(softPassword);
         var medium = new RegExp(mediumPassword);
         var hard = new RegExp(hardPassword);
-        console.log("hard " + hard.test(password));
-        if (hard.test(password)) {
+        if (hard.test(password) && password.length >= minLength && password.length <= maxLength) {
             return({strenght: "hard"});
-            console.log("hard");
         }
         else {
-            console.log("med " + medium.test(password));
-            if (medium.test(password)) {
+            if (medium.test(password) && password.length >= minLength && password.length <= maxLength) {
                 return({strenght: "medium"});
-                console.log("medium");
             }
             else
-                console.log("soft " + soft.test(password));
-            if (soft.test(password)) {
+            if (soft.test(password) && password.length >= minLength && password.length <= maxLength) {
                 return({strenght: "soft"});
-                console.log("soft");
             }
             else {
                 return({strenght: "error"});
-                console.log("err");
             }
         }
     };
@@ -128,13 +112,26 @@
         var settings = $.extend({
             softPasswordRegularExpression: "[A-Za-z]",
             mediumPasswordRegularExpression: "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]",
-            hardPasswordRegularExpression: "((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@]))"
-                    //"((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%,.\[\]\^!]).{6,20})"
+            hardPasswordRegularExpression: "((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@]))",
+            minLength: 6,
+            maxLength: 20
         }, options);
-//        
-        var strenght = validatePasswordStrength(this.val(), settings.softPasswordRegularExpression, settings.mediumPasswordRegularExpression, settings.hardPasswordRegularExpression);
+        var strenght = validatePasswordStrength(this.val(), settings.softPasswordRegularExpression, settings.mediumPasswordRegularExpression, settings.hardPasswordRegularExpression, settings.minLength, settings.maxLength);
         return strenght;
     };
+    var searchForNulls = function(value) {
+
+    };
+    $.fn.validateForm = function() {
+        this.each(function() {
+            if ($(this).val().length < 1) {
+                $(this).parent().addClass("has-error");
+            }
+           
+        });
+        return this;
+    };
+
 
 })(jQuery);
 
